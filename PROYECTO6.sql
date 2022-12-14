@@ -824,31 +824,6 @@ END;
 
 
 
--- (Servicios) Procedimiento para seleccionar todos los servicios registrados
-CREATE OR REPLACE PROCEDURE seleccionartodosservicios (
-    pservicios OUT SYS_REFCURSOR
-) AS
-BEGIN
-    OPEN pservicios FOR SELECT
-                            id_registro,
-                            nombre,
-                            placa,
-                            tiempo_registro,
-                            numero,
-                            descripcion,
-                            CASE
-                                WHEN estado_registro(tiempo_registro) = 1 THEN
-                                    'Activo'
-                                WHEN estado_registro(tiempo_registro) = 0 THEN
-                                    'Expirado'
-                            END AS "Estado"
-                        FROM
-                                 registro_servicios
-                            INNER JOIN casas ON casas.id_casa = registro_servicios.id_casa
-                            INNER JOIN servicios ON servicios.id_servicio = registro_servicios.id_servicio;
-
-END;
-
 
 
 -- (Servicios) Procedimiento para llamar todos los servicios registrados de una casa particular
